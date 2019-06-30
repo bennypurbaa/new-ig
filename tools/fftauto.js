@@ -111,14 +111,6 @@ const Target = async function(username){
 
 }
 
-async function ngefollow(session,accountId){
-  try {
-    await Client.Relationship.create(session, accountId);
-    return true
-  } catch (e) {
-    return false
-  }
-}
 
 async function ngeComment(session, id, text){
   try {
@@ -155,8 +147,7 @@ const CommentAndLike = async function(session, accountId, text){
     ngeComment(session, result[0].params.id, text),
     ngeLike(session, result[0].params.id)
     ]
-    const [Follow,Comment,Like] = await Promise.all(task);
-    const printFollow = Follow ? chalk`{green Follow}` : chalk`{red Follow}`;
+    const [Comment,Like] = await Promise.all(task);
     const printComment = Comment ? chalk`{green Comment}` : chalk`{red Comment}`;
     const printLike = Like ? chalk`{green Like}` : chalk`{red Like}`;
     return chalk`{bold.green ${printFollow}:${printComment}:${printLike} » {bold.cyan ${text}}}`;
